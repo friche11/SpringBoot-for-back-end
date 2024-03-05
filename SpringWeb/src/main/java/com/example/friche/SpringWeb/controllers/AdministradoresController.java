@@ -1,6 +1,7 @@
 package com.example.friche.SpringWeb.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,28 @@ public class AdministradoresController {
     @PostMapping("/administradores/criar")
     public String criar(Administrador administrador){
         repo.save(administrador);
+        return "redirect:/administradores";
+    }
+
+    //Rota para alterar cadastro
+    @GetMapping("/administradores/{id}")
+    public String buscar(@PathVariable int id, Model model){
+        Optional<Administrador> admin = repo.findById(id);
+        try{
+        model.addAttribute("administrador", admin.get());
+        }catch(Exception err){
+            return "redirect:/administradores";
+        }
+        return "administradores/editar";
+    }
+
+    //Rota para alterar cadastro no banco
+    @PostMapping("/administradores/{id}/atualizar")
+    public String atualizar(@PathVariable int id, Administrador administrador){
+       if(!repo.exist(id)){
+        return "redirect:/administradores";
+       }
+       repo.save(administrador);
         return "redirect:/administradores";
     }
 
