@@ -11,6 +11,7 @@ public class CookieService {
     public static void setCookie(HttpServletResponse response, String key, String valor, int segundos){
         Cookie cookie = new Cookie(key, valor);
         cookie.setMaxAge(segundos);
+        cookie.setHttpOnly(true);
         response.addCookie(cookie);
     }
 
